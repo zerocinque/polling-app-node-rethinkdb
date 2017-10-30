@@ -3,11 +3,13 @@ let rethinkdb = require('rethinkdb');
 let db = require('./db');
 let async = require('async');
 
+let dbModel = new db();
+
 class polls{
     addNewPolls(pollData, callback){
         async.waterfall([
             function (callback) {
-                db.connectToDb(function (err, connection) {
+                dbModel.connectToDb(function (err, connection) {
                     if(err){
                         return callback(true, 'Error connecting to database');
                     }
@@ -15,9 +17,9 @@ class polls{
                 });
             },
             function (connection, callback) {
-                rethinkdb.table('poll').insert({
+                rethinkdb.table("poll").insert({
                     "question" : pollData.question,
-                    "polls": pollData.polls
+                    "polls" : pollData.polls
                 }).run(connection, function (err, result) {
                     connection.close();
                     if(err){
@@ -34,7 +36,7 @@ class polls{
     votePollOption(pollData, callback){
         async.waterfall([
             function (callback) {
-                db.connectToDb(function (err, connection) {
+                dbModel.connectToDb(function (err, connection) {
                     if(err){
                         return callback(true, "error connecting to database");
                     }
@@ -69,7 +71,7 @@ class polls{
     getAllPolls(callback){
         async.waterfall([
             function (callback) {
-                db.connectToDb(function (err, connection) {
+                dbModel.connectToDb(function (err, connection) {
                     if (err){
                         return callback(true, "error connecting to db");
                     }
