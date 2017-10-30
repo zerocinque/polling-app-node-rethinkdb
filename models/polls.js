@@ -54,7 +54,7 @@ class polls{
                             break;
                         }
                     }
-                    rethinkdb.table('polls').get(pollData.id).update(result).run(connection, function (err, result) {
+                    rethinkdb.table('poll').get(pollData.id).update(result).run(connection, function (err, result) {
                         connection.close();
                         if(err){
                             return callback(true, 'Error updating the vote');
@@ -99,3 +99,5 @@ class polls{
 }
 
 module.exports = polls;
+
+//c1affd7f-d430-4d9a-8078-23e5018cc53c
